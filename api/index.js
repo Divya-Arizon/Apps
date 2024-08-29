@@ -3,9 +3,10 @@ const app = express();
 const axios = require('axios');
 const path = require('path');
 require('dotenv').config();
+const cors = require('cors');
 
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors({ origin: 'https://store-51hnsmpsmu.mybigcommerce.com' }));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
@@ -40,7 +41,7 @@ app.get('/auth', async (req, res) => {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
       code,
-      redirect_uri: 'https://7ef2-2405-201-e00f-b09e-a0c6-927d-8114-1559.ngrok-free.app/auth' // Ensure this matches your registered callback URL
+      redirect_uri: `${process.env.HOST}/auth // Ensure this matches your registered callback URL
     });
 
     const { access_token } = response.data;
